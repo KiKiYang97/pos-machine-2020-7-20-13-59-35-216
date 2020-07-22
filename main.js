@@ -1,4 +1,4 @@
-const barcodeObj = [
+const barcodeList = [
     {
        barcode: 'ITEM000000',
        name: 'Coca-Cola',
@@ -29,20 +29,22 @@ const barcodeObj = [
        name: 'Instant Noodles',
        price: 4
      }
- ];
+ ]; 
+
 function printReceipt(barcodes) {
-    var barcodesMap = convertTheSameBarcode(barcodes);
-    var receipt = `
+    const barcodesMap = convertTheSameBarcode(barcodes);
+    let receipt = `
 ***<store earning no money>Receipt ***
 `
-+printBarcodesInfo(barcodesMap);
+    +printBarcodesInfo(barcodesMap);
     console.log(receipt);
 }
+
 function convertTheSameBarcode(barcodes){
-    var map = new Map();
-    for(let i=0; i<barcodes.length; i++){
+    let map = new Map();
+    for(let i = 0; i< barcodes.length; i++){
         let cur = barcodes[i];
-        if(map.get(cur)!=undefined){
+        if(map.get(cur)!= undefined){
             let count = map.get(cur);
             count++;
             map.set(cur,count);
@@ -52,36 +54,39 @@ function convertTheSameBarcode(barcodes){
     }
     return map;
 }
+
 function printBarcodesInfo(barcodesMap){
-    var receipt = printBarcode(barcodesMap)
-    +printTotalPrice(barcodesMap);
+    const receipt = printBarcode(barcodesMap)
+                    +printTotalPrice(barcodesMap);
     return receipt;
 }
+
 function printBarcode(barcodesMap){
-    var barcodeReceipt = "";
+    let barcodeReceipt = "";
     barcodesMap.forEach((count,barcode) => {
-        var obj = getBarcodeInfo(barcode);
+        let obj = getBarcodeInfo(barcode);
         barcodeReceipt += `Name: ${obj.name}, Quantity: ${count}, Unit price: ${obj.price} (yuan), Subtotal: ${count*obj.price} (yuan)\n`;
     });
     return barcodeReceipt;
 }
+
 function printTotalPrice(barcodesMap){
-    var totalPrice="";
-    var total = 0;
+    let totalPrice = "";
+    let total = 0;
     barcodesMap.forEach((count,barcode) => {
-        var obj = getBarcodeInfo(barcode);
-         total += count * obj.price;
+        let barcodeInfo = getBarcodeInfo(barcode);
+         total += count *  barcodeInfo.price;
     });
     totalPrice += `----------------------
 Total: ${total} (yuan)
 **********************`;
     return totalPrice;
 }
+
 function getBarcodeInfo(barcode){
-    var barcodeInfo;
-    for(let i = 0; i< barcodeObj.length; i++){
-        if(barcodeObj[i].barcode===barcode){
-            return barcodeObj[i];
+    for(let i = 0; i< barcodeList.length; i++){
+        if(barcodeList[i].barcode===barcode){
+            return barcodeList[i];
         }
     }
     return undefined;
